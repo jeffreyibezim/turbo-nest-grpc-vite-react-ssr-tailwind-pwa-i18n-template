@@ -1,0 +1,14 @@
+<<<<<<< HEAD
+=======
+
+> hms:lib:update
+> copyfiles -u 3 ../../hms-apps/google/**/* ../../hms-apps/proto/**/*.ts src/types && npm install
+
+
+up to date, audited 1776 packages in 14s
+
+379 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+>>>>>>> cf3f710eb630ac20ccbff242f2f1ec2c8e6b0394
