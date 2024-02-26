@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 //import { CreateUserDto } from './dto/create-user.dto';
 //import { UpdateUserDto } from './dto/update-user.dto';
@@ -9,33 +8,18 @@ import {
   Users,
 } from '@common/hms-lib';
 import { User as UserProps } from '@common/hms-lib';
-import { randomUUID } from 'crypto';
+// import { randomUUID } from 'crypto';
 import { Observable, Subject } from 'rxjs';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 
 @Injectable()
-// export class UsersService implements OnModuleInit{
 export class UsersService {
-  //static user data for demo purpose only
-  // private readonly users:User[] = [];
-
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
-  ) {}
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>) {}
 
-  // onModuleInit() {
-  //     for (let i=0; i <= 100; i++){
-  //       let createUserDto: CreateUserDto = {
-  //         primaryEmailAddress: `piosystems${i}@yahoo.co.uk`,
-  //         passwordHash: randomUUID(),
-  //         firstName: `Pio${i}`,
-  //         lastName: `Systems${i}`
-  //       }
-  //       this.create(createUserDto)
-  //     }
-  // }
   async create(createUserDto: CreateUserDto): Promise<UserProps> {
     const user = await this.findOneUserByPrimaryEmailAddress(
       createUserDto.primaryEmailAddress,
@@ -68,8 +52,8 @@ export class UsersService {
       isPrimaryEmailAddressVerified: false,
       isBackupEmailAddressVerified: false,
     };
-    
-    return userProps
+
+    return userProps;
   }
 
   async findAll(): Promise<Users> {
@@ -77,7 +61,7 @@ export class UsersService {
 
     const userProps: UserProps[] = users.map((user) => ({
       ...user,
-      
+
       phone: {},
       isPrimaryEmailAddressVerified: false,
       isBackupEmailAddressVerified: false,
@@ -88,11 +72,11 @@ export class UsersService {
 
   async findOne(id: string): Promise<UserProps> {
     // return this.users.find((user) => user.id === id);
-    const user = await this.userRepository.findOneBy({id});
+    const user = await this.userRepository.findOneBy({ id });
 
     const userProps: UserProps = {
       ...user,
-      
+
       phone: {},
       isPrimaryEmailAddressVerified: false,
       isBackupEmailAddressVerified: false,
@@ -110,9 +94,9 @@ export class UsersService {
     //   };
     //   return this.users[userIndex];
     // }
-    // throw new NotFoundException(`User not found by id ${id}`);
+    // throw new NotFoundException(User not found by id ${id});
 
-    const user = await this.userRepository.findOneBy({id});
+    const user = await this.userRepository.findOneBy({ id });
     if (!user) {
       throw new NotFoundException(`User not found by id ${id}`);
     }
@@ -135,9 +119,9 @@ export class UsersService {
     // if (userIndex !== -1) {
     //   return this.users.splice(userIndex)[0];
     // }
-    // throw new NotFoundException(`User not found by id ${id}`);
+    // throw new NotFoundException(User not found by id ${id});
 
-    const user = await this.userRepository.findOneBy({id});
+    const user = await this.userRepository.findOneBy({ id });
     if (!user) {
       throw new NotFoundException(`User not found by id ${id}`);
     }
@@ -153,7 +137,6 @@ export class UsersService {
     return userProps;
   }
 
-
   queryUsers(
     paginationDtoStream: Observable<PaginationDto>,
   ): Observable<Users> {
@@ -162,7 +145,10 @@ export class UsersService {
       const start = paginationDto.page * paginationDto.skip;
       subject.next({
         // users: this.users.slice(start, start + paginationDto.skip),
-        users: (await this.findAll()).users.slice(start, start + paginationDto.skip)
+        users: (await this.findAll()).users.slice(
+          start,
+          start + paginationDto.skip,
+        ),
       });
     };
 

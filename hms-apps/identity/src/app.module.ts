@@ -5,16 +5,23 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [TypeOrmModule.forRoot({
-    type: 'postgres',
-    host: 'localhost',
-    username: 'root',
-    password: 'root',
-    database: 'my_database',
-    synchronize: true,
-    autoLoadEntities: true
-  
-  }),UsersModule],
+  imports: [
+    UsersModule,
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      port: 3306,
+      host: 'localhost',
+      username: 'root',
+      password: 'root',
+      database: 'hms',
+      synchronize: true,
+      autoLoadEntities: true,
+      logging: false, // Disable logging SQL queries
+      ssl: {
+        rejectUnauthorized: false, // Reject unauthorized SSL connections
+      },
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
